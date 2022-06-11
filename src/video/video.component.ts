@@ -175,7 +175,7 @@ export class VideoComponent implements OnInit {
       .subscribe((res) => {
         // TODO: remove mock facematch
         // res = this.mockResFacematch();
-        if (res && res['esito'].toUpperCase() === 'OK') {
+        if (res && res['data']) {
           //this.matDialog.closeAll();
           //this.service.isVideoUploaded = true;
           //this.router.forward(null);
