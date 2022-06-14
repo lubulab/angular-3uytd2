@@ -53,7 +53,7 @@ export class Utils {
       };
       app.launchApp();
     } else {
-      window.alert(GENERIC_ERROR_MESSAGE;
+      window.alert(GENERIC_ERROR_MESSAGE);
     }
   }
 
