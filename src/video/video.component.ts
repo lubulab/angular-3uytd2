@@ -139,9 +139,9 @@ export class VideoComponent implements OnInit {
   }
 
   getInstruction(key: string): string {
-    speechSynthesis.speak(
-      new SpeechSynthesisUtterance(modalConstants[key].instruction)
-    );
+    let utterance = new SpeechSynthesisUtterance(modalConstants[key].instruction);
+    utterance.rate = 1.5;
+    speechSynthesis.speak(utterance);
     return modalConstants[key].instruction;
   }
 
