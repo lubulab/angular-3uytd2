@@ -111,8 +111,7 @@ export class VideoComponent implements OnInit {
   }
 
   initializeSpeech() {
-    const msg = new SpeechSynthesisUtterance('test');
-    msg.rate = 1.5;
+    const msg = new SpeechSynthesisUtterance();
     speechSynthesis.speak(msg);
   }
 
