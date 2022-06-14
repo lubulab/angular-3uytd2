@@ -99,6 +99,7 @@ export class VideoComponent implements OnInit {
   }
 
   showInstructionsSpeech() {
+    window.alert('v1.3');
     this.initializeSpeech();
     let nmoves = '3';
     let sessionId = 'EIRFORPAYBACK' + Math.floor(Math.random() * 5 + 0); //change upper limit to 1000 for realtime
