@@ -23,11 +23,26 @@ export class Utils {
     return modalConstants[key].instruction;
   }
 
+  public static iOS() {
+    return [
+      'iPad Simulator',
+      'iPhone Simulator',
+      'iPod Simulator',
+      'iPad',
+      'iPhone',
+      'iPod'
+    ].includes(navigator.platform)
+    // iPad on iOS 13 detection
+    || (navigator.userAgent.includes("Mac") && "ontouchend" in document)
+  }
+
   public static bnlStore() {
     let ua = navigator.userAgent.toLowerCase();
     window.alert(ua);
+
     let isAndroid = ua.indexOf('android') > -1;
-    let isIphone = ua.indexOf('iphone') > -1;
+    let isIphone = this.iOS();
+
     if (isIphone) {
       let app = {
         launchApp: function () {
