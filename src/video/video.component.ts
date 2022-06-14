@@ -3,6 +3,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Platform } from '@angular/cdk/platform';
 import { Router } from '@angular/router';
 import { MockService } from '../app/mock.service';
+import { Utils } from './Utils';
 
 const delayTime = (time) => new Promise((resolve) => setTimeout(resolve, time));
 const getDimensions = () => {
@@ -13,18 +14,6 @@ const getDimensions = () => {
 const isMimeTypeSupported = (type: string) =>
   MediaRecorder.isTypeSupported(type);
 declare const MediaRecorder: any;
-
-const modalConstants = {
-  CENTER: {
-    instruction: 'Gira il volto al centro',
-  },
-  LEFT: {
-    instruction: 'Gira il volto a sinistra',
-  },
-  RIGHT: {
-    instruction: 'Gira il volto a destra',
-  },
-};
 
 @Component({
   selector: 'app-video',
@@ -132,17 +121,10 @@ export class VideoComponent implements OnInit {
     this.showInstructionsModal = true;
     let delayInterval = (12 / this.videoInstructions.length) * 1000;
     for (let instruction of this.videoInstructions) {
-      this.instruction = this.getInstruction(instruction.toUpperCase());
+      this.instruction = Utils.getInstruction(instruction.toUpperCase());
       await delayTime(delayInterval);
     }
     console.log('done');
-  }
-
-  getInstruction(key: string): string {
-    let utterance = new SpeechSynthesisUtterance(modalConstants[key].instruction);
-    utterance.rate = 1.5;
-    speechSynthesis.speak(utterance);
-    return modalConstants[key].instruction;
   }
 
 }

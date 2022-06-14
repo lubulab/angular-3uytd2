@@ -9,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 export class AppComponent implements OnInit {
 
   ngOnInit(): void {
-    console.log('v1.0');
+    console.log('v1.1');
   }
 
 }
