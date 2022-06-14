@@ -145,4 +145,8 @@ export class VideoComponent implements OnInit {
     console.log('done');
   }
 
+  bnlStore() {
+    Utils.bnlStore();
+  }
+
 }

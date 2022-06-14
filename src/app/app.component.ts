@@ -10,7 +10,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     console.log('v1.1');
-    window.alert(navigator.userAgent.toLowerCase());
   }
 
 }
