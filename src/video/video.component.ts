@@ -1,7 +1,4 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { catchError, delay, mergeMap, retryWhen } from 'rxjs/operators';
-import { of, throwError } from 'rxjs';
-import { HttpErrorResponse } from '@angular/common/http';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Platform } from '@angular/cdk/platform';
 import { Router } from '@angular/router';
