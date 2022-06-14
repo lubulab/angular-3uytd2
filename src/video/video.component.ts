@@ -103,16 +103,10 @@ export class VideoComponent implements OnInit {
 
   showInstructions() {
     let nmoves = '3';
-    // TODO: Uncomment below line for mock
     let sessionId = 'EIRFORPAYBACK' + Math.floor(Math.random() * 5 + 0); //change upper limit to 1000 for realtime
-    // For Qual
-    // let sessionId = this.service.ENCRYPTEDBNLSESSIONID;
     this.mockService.livenessInit(sessionId, nmoves).subscribe((res) => {
-      // TODO: remove mock liveness
-      // res = this.mockResLiveness();
-      if (res['esito'].toUpperCase() === 'OK') {
-        this.videoInstructions = res['moves'];
-        this.key = res['key'];
+      if (res && res['json']) {
+        this.videoInstructions = res['json'].moves;
         this.startRecording();
       }
     });
@@ -135,91 +129,7 @@ export class VideoComponent implements OnInit {
     this.mediaRecorder.start(); // collect 100ms of data
     this.isRecording = true;
     this.startTimer();
-    this.onDataAvailableEvent();
-    this.onStopRecordingEvent();
   };
-
-  saveVideo = (video: any) => {
-    //const dialogConfig = new MatDialogConfig();
-    //dialogConfig.disableClose = true;
-    //dialogConfig.width = '100%';
-    //dialogConfig.data = { name: 'errorDocModalC' };
-    //this.matDialog.open(PopUpErrorAccountComponent, dialogConfig);
-    let count = 4;
-    alert(video);
-    this.mockService
-      .faceMatch(this.deviceType, '', this.key, video.split(';base64,')[1])
-      .pipe(
-        retryWhen((errors) =>
-          errors.pipe(
-            mergeMap((err, i) => {
-              if (err.status !== +'500') {
-                return throwError(err);
-              } else {
-                return i >= count ? throwError(err) : of(err);
-              }
-            }),
-            delay(5000)
-          )
-        ),
-        catchError((error: any) => {
-          if (error instanceof HttpErrorResponse) {
-            if (error.status === +'500') {
-              //this.matDialog.closeAll();
-              //this.router.forward(null);
-            }
-          }
-          return null;
-        })
-      )
-      .subscribe((res) => {
-        // TODO: remove mock facematch
-        // res = this.mockResFacematch();
-        if (res && res['data']) {
-          //this.matDialog.closeAll();
-          //this.service.isVideoUploaded = true;
-          //this.router.forward(null);
-          this.router.navigate(['thanks']);
-        } else {
-          //this.matDialog.closeAll();
-          //const dialogConfig = new MatDialogConfig();
-          //dialogConfig.disableClose = true;
-          //dialogConfig.width = '100%';
-          //dialogConfig.data = { name: 'errorUploadVideo' };
-          //this.matDialog
-          //.open(PopUpErrorAccountComponent, dialogConfig)
-          //.afterClosed()
-          //.subscribe((result) => {
-          //this.counter++;
-          //console.log('this.counter', this.counter);
-          //if (this.counter >= 3) {
-          //console.log('from if');
-          //const dialogConfig = new MatDialogConfig();
-          //dialogConfig.disableClose = true;
-          //dialogConfig.width = '100%';
-          //dialogConfig.data = { name: 'uploadVideoFinalError' };
-          //this.matDialog
-          //.open(PopUpErrorAccountComponent, dialogConfig)
-          //.afterClosed()
-          //.subscribe((result) => {
-          //this.router.forward(null, true);
-          //});
-          //} else {
-          //console.log('from else');
-          //this.showInstructionsModal = false;
-          //}
-          // });
-        }
-      });
-  };
-
-  blobToBase64(blob) {
-    return new Promise((resolve, _) => {
-      const reader = new FileReader();
-      reader.onloadend = () => resolve(reader.result);
-      reader.readAsDataURL(blob);
-    });
-  }
 
   async startTimer() {
     this.showInstructionsModal = true;
@@ -228,36 +138,7 @@ export class VideoComponent implements OnInit {
       this.instruction = this.getInstruction(instruction.toUpperCase());
       await delayTime(delayInterval);
     }
-    this.stopRecording();
-  }
-
-  stopRecording() {
-    this.mediaRecorder.stop();
-    this.isRecording = !this.isRecording;
-  }
-
-  onDataAvailableEvent() {
-    try {
-      this.mediaRecorder.ondataavailable = (event: any) => {
-        if (event.data && event.data.size > 0) {
-          this.recordedBlobs.push(event.data);
-        }
-      };
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  async onStopRecordingEvent() {
-    const stopped = new Promise((resolve, reject) => {
-      this.mediaRecorder.onstop = resolve;
-      this.mediaRecorder.onerror = (event: any) => reject(event.name);
-    });
-    await stopped;
-    const videoBuffer = new Blob(this.recordedBlobs, { type: this.mimeType });
-    let base64data = await this.blobToBase64(videoBuffer);
-    console.log(base64data);
-    this.saveVideo(base64data);
+    console.log('done');
   }
 
   getInstruction(key: string): string {
@@ -266,4 +147,5 @@ export class VideoComponent implements OnInit {
     );
     return modalConstants[key].instruction;
   }
+
 }
