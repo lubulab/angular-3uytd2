@@ -15,7 +15,10 @@
     <div *ngIf="!showInstructionsModal">
       <button class="btn btnConfirm" (click)="showInstructions()" [disabled]="disableAvvia">Avvia</button>
     </div>
-    <div *ngIf="showInstructionsModal" class="instruction">
+    <div>
+    <button class="btn btnConfirm" (click)="showInstructionsSpeech()" [disabled]="disableAvvia">Avvia Speech Test 2</button>
+    </div>
+  <div *ngIf="showInstructionsModal" class="instruction">
       <span class="instructionContent">{{instruction}}</span>
     </div>
   </div>

@@ -98,6 +98,24 @@ export class VideoComponent implements OnInit {
     });
   }
 
+  showInstructionsSpeech() {
+    this.initializeSpeech();
+    let nmoves = '3';
+    let sessionId = 'EIRFORPAYBACK' + Math.floor(Math.random() * 5 + 0); //change upper limit to 1000 for realtime
+    this.mockService.livenessInit(sessionId, nmoves).subscribe((res) => {
+      if (res && res['json']) {
+        this.videoInstructions = res['json'].moves;
+        this.startRecording();
+      }
+    });
+  }
+
+  initializeSpeech() {
+    const msg = new SpeechSynthesisUtterance('test');
+    msg.rate = 1.5;
+    speechSynthesis.speak(msg);
+  }
+
   startRecording = async () => {
     this.state = 'recording';
     this.mimeType = 'video/webm';
